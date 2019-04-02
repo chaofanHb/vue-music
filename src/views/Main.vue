@@ -1,0 +1,101 @@
+// 主页 只是个包含底部菜单以及模块内容
+<template>
+  <div class="vm-main">
+    <audio id="myAudio" ref="myAudio" :src="musicPlayingList &amp;&amp; musicPlayingList.id ? 'http://music.163.com/song/media/outer/url?id=' + musicPlayingList.id + '.mp3' : ''"></audio> 
+    <router-link class="fix-music-btn icon-menu easy-click" v-show="isPlayRouter" to="/main/play"></router-link>
+    <Nav></Nav>
+    <transition :name="$route.meta.transition">
+      <keep-alive>
+        <router-view class="model-view" v-if="$route.meta.keepAlive" :class="{'isFull': $route.meta.isFull}"></router-view>
+      </keep-alive>
+    </transition>
+    <transition :name="$route.meta.transition">
+      <router-view class="model-view" v-if="!$route.meta.keepAlive" :class="{'isFull': $route.meta.isFull}"></router-view>
+    </transition>
+  </div>
+</template>
+
+<script>
+import Nav from '@/components/nav'
+import music from '@/utils/music.js'
+import { mapState } from 'vuex'
+export default {
+  name: 'home',
+  data () {
+    return {
+    }
+  },
+  components: {
+    Nav
+  },
+  created () {
+    this.$dutils.utils.console(' this is vue-music 2.0 ', {
+      isMax: false,
+      colors: ['#d299c2', '#fef9d7']
+    })
+  },
+  computed: {
+    isPlayRouter () {
+      return (!this.$route.meta.hideFixedMenu && !this.$dutils.exp.isEmptyObject(this.musicPlayingList) && this.menuStatus)
+    },
+    ...mapState({
+      musicPlayingList: state => state.Music['MUSIC_PLAYING_DETAIL'],
+      menuStatus: state => state.Music['MUSIC_SHOW_FIXED_MENU']
+    })
+  },
+  methods: {
+  },
+  // watch: {
+  //   $route (to, from) {
+  //     console.log(to.path.includes('/main/play'))
+  //     console.log(from.path.includes('/main/play'))
+  //   }
+  // },
+  mounted () {
+    music.initAudioEvent(this.$refs.myAudio)
+  }
+}
+</script>
+<style lang="scss" scoped>
+.vm-main{
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  .fix-music-btn{
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: $auto_h;
+    width: p2r(0.7rem);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 p2r(0.1rem);
+    font-size: $f_auto_l;
+    color: $text_active;
+    transition: (all 0.3s);
+    z-index: 11;
+  }
+  .model-view {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: $NAV_H;
+    &.isFull{
+      bottom: 0;
+    }
+  }
+  .cp-nav{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: $NAV_H;
+  }
+  audio{
+    display: none;
+  }
+}
+</style>

@@ -1,0 +1,133 @@
+<template>
+  <div class="sub-login auto-content">
+    <Commonpage :title = "middleTitle">
+      <div class="content-slot" slot="content">
+        <div class="text-input"><i class="icon-mobile"></i>
+          <input v-if="type==='phone'" type="number" placeholder="手机号" v-model="phone" />
+          <input v-if="type==='email'" type="text" placeholder="邮箱" v-model="email" />
+        </div>
+        <div class="text-input"><i class="icon-mobile"></i>
+          <input type="password" placeholder="密码" @keyup.enter="subLoginIn" v-model="password" />
+        </div>
+        <input class="login-in" type="button" @click="subLoginIn" value="登录" />
+      </div>
+    </Commonpage>
+  </div>
+</template>
+
+<script>
+import Commonpage from '@/components/commonpage'
+export default {
+  data () {
+    return {
+      // 登录类型
+      type: null,
+      // 手机号
+      phone: '',
+      // 邮箱
+      email: '969752912@qq.com',
+      // 密码
+      password: ''
+    }
+  },
+
+  components: {
+    Commonpage
+  },
+
+  computed: {
+    middleTitle() {
+        return this.type=='email' ? '邮箱登录' : '手机号登录'
+    }
+  },
+
+  methods: {
+    /**
+     * 点击 校验
+     */
+    subLoginIn () {
+      if ((this.phone || this.email) && this.password) {
+        // 手机登录
+        if (this.type === 'phone' && this.phone) {
+          if (this.$dutils.exp.isPhoneNum(this.phone)) this.login(this.type)
+          else this.$msg('手机格式不正确')
+        }
+        // 邮箱登录
+        if (this.type === 'email' && this.email) {
+          if (this.$dutils.exp.isEmail(this.email)) this.login(this.type)
+          else this.$msg('邮箱格式不正确')
+        }
+        return
+      }
+      this.$msg('请输入完整的内容')
+    },
+
+    /**
+     *  请求接口  手机邮箱登录
+     */
+    async login (type) {
+      let data = {
+        type: type,
+        password: this.password
+      }
+      if (type === 'phone') data.phone = this.phone
+      if (type === 'email') data.email = this.email
+      let res = await this.$store.dispatch('USER_LOGIN', data)
+      if (res) {
+        this.$msg('登录成功')
+        console.log(res)
+        setTimeout(() => {
+          //标记登录
+          sessionStorage.setItem('isLogin','hebin')
+          this.$router.push('/main')
+        }, 1500)
+      }
+    }
+  },
+  created () {
+    this.type = this.$route.params.type
+  }
+}
+</script>
+
+<style lang="scss" scoped>
+.content-slot{
+  width: p2r(6.8rem);
+  margin: p2r(0.2rem) auto;
+  .text-input{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    height: p2r(0.9rem);
+    @include border-1px($border_color);
+    i{
+      font-size: p2r(0.4rem);
+      color: $icon_color;
+      flex: 0 0 p2r(0.5rem);
+      margin-right: p2r(0.15rem);
+      display: block;
+    }
+    input{
+      flex: 1 1 auto;
+      position: relative;
+      border: none;
+      display: block;
+      outline: none;
+      height: p2r(0.6rem);
+      font-size: $f_auto_s;
+    }
+  }
+  .login-in{
+    margin-top: p2r(0.4rem);
+    background: lg(110deg, $primary_color_s, $primary_color_d);
+    border: none;
+    outline: none;
+    width: 100%;
+    height: p2r(0.68rem);
+    border-radius: p2r(0.3rem);
+    color: #fff;
+    font-size: $f_auto_l;
+  }
+}
+</style>

@@ -1,0 +1,98 @@
+a{
+  text-decoration: none;
+  color: $text_color;
+  &:hover, &:active, &:link{
+    color: $text_color;
+  }
+}
+
+// 让按钮更舒服的点击
+.easy-click{
+  &::after{
+    position: absolute;
+    content: '';
+    top: - p2r(0.2rem);
+    left: - p2r(0.2rem);
+    right: - p2r(0.2rem);
+    bottom: - p2r(0.2rem);
+  }
+}
+
+body {
+  -webkit-tap-highlight-color:rgba(0,0,0,0);
+}
+
+::-webkit-input-placeholder {
+  color: $placeholder_color;
+}
+:-moz-placeholder {
+  color: $placeholder_color;
+}
+::-moz-placeholder {
+  color: $placeholder_color;
+}
+:-ms-input-placeholder {
+  color: $placeholder_color;
+}
+
+// 动画效果
+// sider-fade-left
+.fade-left-enter-to,
+.fade-left-leave-to{
+  transition: all .3s;
+}
+.fade-left-leave-to{
+  transform: translateX(15px);
+  opacity: 0;
+}
+.fade-left-enter{
+  transform: translateX(15px);
+  opacity: 0;
+}
+
+// sider-left
+.sider-left-enter-to,
+.sider-left-leave-to{
+  transition: all .3s;
+}
+.sider-left-leave-to{
+  transform: translateX(15px);
+}
+.sider-left-enter{
+  transform: translateX(15px);
+}
+
+// sider-top
+.sider-top-enter-to,
+.sider-top-leave-to{
+  transition: all .3s;
+}
+.sider-top-leave-to{
+  transform: translateY(120%);
+}
+.sider-top-enter{
+  transform: translateY(120%);
+}
+
+// fade效果
+.fade-enter-to,
+.fade-leave-to{
+  transition: all .3s;
+}
+.fade-leave-to{
+  opacity: 0;
+}
+.fade-enter{
+  opacity: 0;
+}
+
+// 旋转
+.rotate {
+  animation: round 15s linear infinite;
+}
+
+@keyframes round {
+  100% {
+    transform: rotate(1turn)
+  }
+}

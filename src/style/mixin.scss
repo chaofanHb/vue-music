@@ -1,0 +1,122 @@
+// 多少行限制超出省略
+// 整个元素的高度， 行数
+@mixin lineclamp($height, $count) {
+	height: $height;
+	line-height: $height / $count;
+	overflow:hidden;
+  text-overflow:ellipsis;
+	word-wrap: break-word;
+	display:-webkit-box;
+	-webkit-box-orient:vertical;
+	-webkit-line-clamp: $count;
+}
+
+// fixed布局铺面全屏
+@mixin fixedfull {
+	position: fixed;
+	right: 0;
+	top: 0;
+	left: 0;
+	bottom: 0;
+}
+
+// 单行省略
+@mixin els {
+  overflow:hidden;
+  text-overflow:ellipsis;
+	word-wrap: break-word;
+	white-space: nowrap;
+}
+
+// 1像素的问题
+@mixin border-1px ($color: #eee, $type: bottom) {
+	&:after {
+		height: 1px;
+		content: '';
+		width: 100%;
+		background: $color;
+		position: absolute;
+		left: 0;
+		right: 0;
+	}
+	@if ($type == top) {
+		&:after {
+			top: 0;
+		}
+	} @else {
+		&::after{
+			bottom: 0;
+		}
+	}
+	@media (-webkit-min-device-pixel-ratio: 1) {
+		&:after {
+			transform: scaleY(1);
+			-webkit-transform: scaleY(1);
+		}
+	}
+	@media (-webkit-min-device-pixel-ratio: 2) {
+		&:after {
+			transform: scaleY(0.5);
+			-webkit-transform: scaleY(0.5);
+		}
+	}
+	@media (-webkit-min-device-pixel-ratio: 3) {
+		&:after {
+			transform: scaleY(0.3333);
+			-webkit-transform: scaleY(0.3333);
+		}
+	}
+}
+
+// amfe-flexible 定义宽度10rem是整个屏幕的宽度，是按照750 / 7.5算的，p2r是一种以宽度为7.5rem计算的方式
+// 虽然实际上会被转换，但是在编写和计算宽度的时候很方便
+@function p2r($rem) {
+  @return $rem / 7.5 * 10
+};
+
+// 渐变的效果
+@function lg($direction: 90deg, $colors...) {
+	@return linear-gradient($direction, $colors);
+}
+
+// 添加blur模糊效果
+// 如果不是绝对定位，父元素需要设置相对定位
+// $blur 为模糊的数值
+// $height 区域的高度
+// $position 为位置 默认50%
+@mixin blur($blur, $height, $position: 50%, $scale: 1.5) {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: $position;
+	-webkit-filter: blur($blur);
+	filter: blur($blur);
+	-webkit-transform: scale($scale);
+	transform: scale($scale);
+	overflow: hidden;
+	&::before{
+		content: '';
+		position: absolute;
+		left: 0;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		z-index: 1;
+		background: rgba(0,0,0,0.1);
+		transition: all 0.3s;
+	}
+	@if ($height == auto) {
+		bottom: 0;
+	}
+	@else {
+		height: $height;
+	}
+	&.draken{
+		&::before{
+			background: rgba(0,0,0,0.3);
+		}
+	}
+}

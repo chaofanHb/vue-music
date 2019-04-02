@@ -1,0 +1,80 @@
+$text_color: #2c3e50;
+
+$text_gray_color: #373838;
+
+$text_active: #fff;
+
+$text_noactive: #e1e1e1;
+
+// $primary_color: #333;
+
+$primary_color: rgb(203, 40, 41);
+
+// 浅色主色
+$primary_color_s: #e75e4e;
+
+// 深色主色
+$primary_color_d: #C2473B;
+
+// 金色
+$gold_color: #ffcc99;
+
+// 按钮通用色
+$icon_color: #aaa;
+
+$icon_color_nav: #c1c1c1;
+
+// 边框通用色
+$border_color: #eee;
+
+$bg_gray: #f3f3f3;
+
+// 白色图标
+$icon-f: #fff;
+
+// 输入框提示颜色
+$placeholder_color: #ccc;
+
+$color_gray: #aaa;
+
+$color_gray_deep: #a1a1a1;
+
+$color_drak_slow: #999;
+
+$color_gray_slow: #bcbcbc;
+
+// 字体大小设置
+// 登录input输入框文字大小
+$f_auto_s: p2r(0.32rem);
+
+// 登陆按钮文字 / 头部title文字大小
+$f_auto_l: p2r(0.34rem);
+
+// 底部菜单按钮下的小文字，最小的类型
+$f_small_s: p2r(0.2rem);
+
+$f_small_x: p2r(0.24rem);
+
+// 歌单列表名字下方的描述信息
+$f_small_m: p2r(0.26rem);
+
+// mine 中的tip用户名字大小
+$f_small_l: p2r(0.28rem);
+
+
+// ======================= 高度宽度
+
+// 底部菜单高度
+$NAV_H: p2r(0.9rem);
+
+// 头部内容高度
+$HEADER_H: p2r(1.55rem);
+
+// 仅仅搜索头部的高度
+$HEADER_H_S: p2r(0.86rem);
+
+
+$auto_h: p2r(1rem);
+
+$auto_padding_l_r: p2r(0.15rem);
+$auto_padding_t_b: p2r(0.15rem);
